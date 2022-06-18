@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   db:
-    container_name: cloud-db
+    container_name: cloud-station-db
     image: postgres:15beta1-alpine
     restart: always
     environment:
@@ -14,7 +14,7 @@ services:
     ports:
       - ${TYPEORM_PORT}:${TYPEORM_PORT}
   backend:
-    container_name: cloud-server
+    container_name: cloud-station-server
     build:
       context: .
     depends_on:
