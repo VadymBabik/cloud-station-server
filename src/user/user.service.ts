@@ -35,4 +35,10 @@ export class UserService {
     await this.userRepo.remove(await this.userRepo.findOneBy({ id }));
     return id;
   }
+
+  async getUserByEmail(email: string): Promise<User> {
+    return await this.userRepo.findOne({
+      where: { email },
+    });
+  }
 }
