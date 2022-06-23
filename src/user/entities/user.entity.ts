@@ -12,4 +12,12 @@ export class User extends Base {
   @Field()
   @Column()
   password: string;
+
+  @Field()
+  @Column()
+  name: string;
+
+  @Field({ nullable: true })
+  @Column({ nullable: true })
+  imageUrl: string;
 }

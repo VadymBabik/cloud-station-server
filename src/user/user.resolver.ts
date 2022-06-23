@@ -3,14 +3,12 @@ import { UserService } from './user.service';
 import { User } from './entities/user.entity';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
-import { AuthService } from '../auth/auth.service';
+import { UseGuards } from '@nestjs/common';
+import { jwtAuthGuard } from '../auth/jwt.auth.guard';
 
 @Resolver(() => User)
 export class UserResolver {
-  constructor(
-    private readonly userService: UserService,
-    private readonly authService: AuthService,
-  ) {}
+  constructor(private readonly userService: UserService) {}
 
   @Mutation(() => User, { name: 'createUser' })
   async createUser(
@@ -29,6 +27,15 @@ export class UserResolver {
     return this.userService.findOne(id);
   }
 
+  @UseGuards(jwtAuthGuard)
+  @Query(() => User, { name: 'getCurrentUser' })
+  async getCurrentUser(
+    @Context()
+    context: any,
+  ): Promise<User> {
+    return this.userService.findOne(context.user.id);
+  }
+
   @Mutation(() => User, { name: 'updateUserById' })
   async updateUser(
     @Args('updateUserInput') updateUserInput: UpdateUserInput,
@@ -41,25 +48,5 @@ export class UserResolver {
     @Args('id', { type: () => Int }) id: number,
   ): Promise<number> {
     return this.userService.remove(id);
-  }
-
-  @Mutation(() => User)
-  async registerUser(
-    @Args('createUserInput', {
-      description: 'registerUser',
-      name: 'registerUser',
-    })
-    createUserInput: CreateUserInput,
-    @Context() context: any,
-  ): Promise<User> {
-    console.log(context.res);
-    const { token, user } = await this.authService.register(createUserInput);
-    context.res.cookie('token', token.token, {
-      expires: new Date(new Date().getTime() + 30 * 1000),
-      sameSite: 'strict',
-      secure: true,
-      httpOnly: true,
-    });
-    return user;
   }
 }

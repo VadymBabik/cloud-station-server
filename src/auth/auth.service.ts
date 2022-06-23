@@ -1,13 +1,9 @@
-import {
-  HttpException,
-  HttpStatus,
-  Injectable,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from '../user/user.service';
 import { CreateUserInput } from '../user/dto/create-user.input';
 import { User } from '../user/entities/user.entity';
+import { LoginUserInput } from './dto/login-user.input';
 import * as bcryptjs from 'bcryptjs';
 
 interface Token {
@@ -37,8 +33,10 @@ export class AuthService {
     return { user, token };
   }
 
-  async login(input: CreateUserInput): Promise<Token> {
-    return this.generateToken(await this.userValidate(input));
+  async login(input: LoginUserInput): Promise<Register> {
+    const user = await this.userValidate(input);
+    const token = await this.generateToken(user);
+    return { user, token };
   }
 
   private async generateToken(user: User): Promise<Token> {
@@ -48,12 +46,12 @@ export class AuthService {
     };
   }
 
-  private async userValidate(userDto: CreateUserInput) {
+  private async userValidate(userDto: LoginUserInput) {
     const user = await this.userService.getUserByEmail(userDto.email);
     const password = await bcryptjs.compare(userDto.password, user.password);
     if (user && password) {
       return user;
     }
-    throw new UnauthorizedException({ message: 'user is not validated' });
+    throw new HttpException('User is not validated', HttpStatus.FORBIDDEN);
   }
 }

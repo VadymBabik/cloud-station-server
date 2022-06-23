@@ -5,6 +5,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UserModule } from '../user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from '../user/entities/user.entity';
+import { AuthResolver } from './auth.resolver';
 
 @Module({
   imports: [
@@ -21,7 +22,7 @@ import { User } from '../user/entities/user.entity';
     }),
     forwardRef(() => UserModule),
   ],
-  providers: [AuthService],
+  providers: [AuthService, AuthResolver],
   exports: [AuthService, JwtModule],
 })
 export class AuthModule {}

@@ -31,6 +31,10 @@ import { AuthModule } from './auth/auth.module';
       playground: true,
       sortSchema: true,
       context: ({ req, res }) => ({ req, res }),
+      cors: {
+        origin: 'http://localhost:3000',
+        credentials: true,
+      },
     }),
     UserModule,
     AuthModule,
