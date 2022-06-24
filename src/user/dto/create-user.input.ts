@@ -5,7 +5,7 @@ import { IsEmail, IsNotEmpty, MaxLength, MinLength } from 'class-validator';
 export class CreateUserInput {
   @IsNotEmpty()
   @IsEmail()
-  @Field(() => String, { description: 'Email user)' })
+  @Field(() => String, { description: 'Email user' })
   email: string;
 
   @IsNotEmpty()
@@ -15,7 +15,7 @@ export class CreateUserInput {
   @MaxLength(15, {
     message: 'Title is too long',
   })
-  @Field(() => String, { description: 'Password user)' })
+  @Field(() => String, { description: 'Password user' })
   password: string;
 
   @IsNotEmpty()
@@ -25,6 +25,6 @@ export class CreateUserInput {
   @MaxLength(15, {
     message: 'name is too long',
   })
-  @Field(() => String, { description: 'Name user)' })
+  @Field(() => String, { description: 'Name user' })
   name: string;
 }

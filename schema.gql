@@ -3,13 +3,13 @@
 # ------------------------------------------------------
 
 input CreateUserInput {
-  """Email user)"""
+  """Email user"""
   email: String!
 
-  """Name user)"""
+  """Name user"""
   name: String!
 
-  """Password user)"""
+  """Password user"""
   password: String!
 }
 
@@ -19,10 +19,10 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 scalar DateTime
 
 input LoginUserInput {
-  """Email user)"""
+  """Email user"""
   email: String!
 
-  """Password user)"""
+  """Password user"""
   password: String!
 }
 
@@ -37,7 +37,7 @@ type Mutation {
     createUserInput: CreateUserInput!
   ): User!
   removeUserById(id: Int!): User!
-  updateUserById(updateUserInput: UpdateUserInput!): User!
+  updateUser(updateUserInput: UpdateUserInput!): User!
 }
 
 type Query {
@@ -47,15 +47,15 @@ type Query {
 }
 
 input UpdateUserInput {
-  """Email user)"""
+  """Email user"""
   email: String
   id: Int!
 
-  """Name user)"""
-  name: String
+  """imageUrl user"""
+  imageUrl: String
 
-  """Password user)"""
-  password: String
+  """Name user"""
+  name: String
 }
 
 type User {

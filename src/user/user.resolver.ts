@@ -36,7 +36,7 @@ export class UserResolver {
     return this.userService.findOne(context.user.id);
   }
 
-  @Mutation(() => User, { name: 'updateUserById' })
+  @Mutation(() => User, { name: 'updateUser' })
   async updateUser(
     @Args('updateUserInput') updateUserInput: UpdateUserInput,
   ): Promise<User> {
